@@ -1,3 +1,12 @@
+/**
+ * Android and cordova setup utils
+ * "setup-android": "node ./config/setup-android",
+ * "android:setup": "npm run setup-android downloadDependencies",
+ * "cordova": "node run setup-android cordova",
+ * "android:build": "npm run cordova build android",
+ * "android:clean": "npm run cordova clean android"
+*/
+
 const utils = require('./utils');
 const fs = require('fs');
 const prependPath = require('prepend-path');
@@ -20,7 +29,7 @@ module.exports.withAndroidEnv = function(command) {
 	utils.exec(`ANDROID_HOME=${path.resolve(ANDROID_SDK)} GRADLE_HOME=${path.resolve(GRADLE_PATH)} ${command}`);
 }
 
-module.exports.runCordova = function(command) {
+module.exports.cordova = function(command) {
 	const cordovaExectuable = './node_modules/.bin/cordova';
 
 	if (!fs.existsSync(cordovaExectuable)) {
@@ -81,15 +90,8 @@ function getGradleUrl() {
 
 function installAndroidSdk() {
 	console.log(`Installing the android sdk ${PLATFORM_VERSION}, and build-tools version ${BUILD_TOOLS_VERSION}...`);
-
-	ensureAndroidRepoExists();
 	fs.chmodSync(ANDROID_SDK_MANAGER, 0o555);
 	utils.exec(`yes | ${ANDROID_SDK_MANAGER} "build-tools;${BUILD_TOOLS_VERSION}" "platforms;${PLATFORM_VERSION}"`)
-}
-
-function ensureAndroidRepoExists() {
-	// TODO implementation
-	// create /Users/rachidox/.android/repositories.cfg
 }
 
 function getSdkToolsUrl() {

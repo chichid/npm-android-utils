@@ -1,10 +1,3 @@
-/**
-* "android:setup": "node ../config/setup-android downloadDependencies",
-* "cordova": "node ../config/setup-android runCordova",
-* "android:build": "npm run cordova build android",
-* "android:clean": "npm run cordova clean android"
- */
-
 const fs = require('fs');
 const path = require('path');
 
@@ -24,16 +17,19 @@ module.exports.exec = function(command) {
 	try {
 		execSync(command, {stdio: [0, 1, 2]});
 	} catch(err) {
-		console.log(err.toString());
+		console.error(err.toString());
 	}
 }
 
 function unzip(dirname, fileName, cb) {
-	console.log(`unzipping ${fileName}...`);
-	const admZip = require('adm-zip');
-	let zip = new admZip(fileName);
-	zip.extractAllTo(dirname);
-	console.log(`unzipping ${fileName} completed.`);
+	if (fs.existsSync(fileName)) {
+		console.log(`unzipping ${fileName}...`);
+		const admZip = require('adm-zip');
+		let zip = new admZip(fileName);
+		zip.extractAllTo(dirname);
+		console.log(`unzipping ${fileName} completed.`);
+	}
+		
 	if (cb) cb();
 }
 
@@ -63,14 +59,47 @@ function download(url, dest, callback) {
 
 	const lib = url.startsWith('https') ? require('https') : require('http');
 	
-	var file = fs.createWriteStream(dest);
+	let file = fs.createWriteStream(dest);
 	
-	lib.get(url, function(response) {
-		response.pipe(file);
+	const sigIntListener = () => {
+		console.warn(`Caught interrupt signal while downloading dependencies, cleaning up`);
+		onDownloadComplete(true);
+    process.exit();
+	};
+
+	process.on('SIGINT', sigIntListener);
+
+	const onDownloadComplete = (isError) => {
+		if (isError) {
+			console.log(`Deleting ${file.path}...`);
+			file.close(callback);
+			fs.unlinkSync(file.path);	
+		} else {
+			file.close(callback);
+		}
+
+		process.removeAllListeners('SIGINT', sigIntListener)
+	};
+
+	lib.get(url, response => {
+		const { statusCode } = response;
+		
+		if (statusCode !== 200) {
+			console.error(`Error while downloading ${url}, Status Code: ${statusCode}`);
+			onDownloadComplete(true);
+		} else {
+			response.pipe(file);
+		}
+	})
+	.on('end', err => {
+		onDownloadComplete(err ? true : false);
 	});
 
-	file.on('finish', function() {
-		console.log(`Download ${url} completed.`);
-		file.close(callback);
+	
+
+	const { finished } = require('stream');
+	finished(file, err => {
+		sigIntListener
+		onDownloadComplete(err ? true : false, callback);
 	});
 }
