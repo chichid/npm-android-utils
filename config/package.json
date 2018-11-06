@@ -1,20 +1,20 @@
 {
-	"name": "npm-android-utils",
-	"description": "Android build utilities based on node",
+  "name": "npm-android-utils",
+  "description": "Android build utilities based on node",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "repository": "https://github.com/x87ma/npm-android-utils",
   "scripts": {
-		"setup-android": "node setup-android",
-		"android:setup": "npm run setup-android downloadDependencies",
-		"cordova": "node run setup-android cordova",
-		"cordova:android:build": "npm run cordova build android",
-		"cordova:android:run": "npm run cordova run android",
-		"cordova:android:clean": "npm run cordova clean android"
+    "postinstall": "node setup-android downloadDependencies",
+    "cordova": "node setup-android cordova",
+    "cordova:android:build": "npm run cordova build android",
+    "cordova:android:run": "npm run cordova run android",
+    "cordova:android:clean": "npm run cordova clean android"
   },
-  "devDependencies": {
+  "dependencies": {
     "adm-zip": "^0.4.11",
     "make-runnable": "^1.3.6",
-		"prepend-path": "^1.0.0"
+    "prepend-path": "^1.0.0"
   }
 }
