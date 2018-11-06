@@ -1,3 +1,10 @@
+/**
+* "android:setup": "node ../config/setup-android downloadDependencies",
+* "cordova": "node ../config/setup-android runCordova",
+* "android:build": "npm run cordova build android",
+* "android:clean": "npm run cordova clean android"
+ */
+
 const fs = require('fs');
 const path = require('path');
 

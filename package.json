@@ -4,9 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "android:setup": "node ./config/setup-android"
+		
   },
   "devDependencies": {
-    "adm-zip": "^0.4.11"
+    "adm-zip": "^0.4.11",
+    "make-runnable": "^1.3.6",
+		"prepend-path": "^1.0.0"
   }
 }
