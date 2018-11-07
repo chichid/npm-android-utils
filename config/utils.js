@@ -11,11 +11,11 @@ module.exports.downloadZip = function (uri, dirname, outFile, cb) {
   });
 };
 
-module.exports.exec = function (command) {
+module.exports.exec = function (command, env) {
   const { execSync } = require('child_process');
 
   try {
-    execSync(command, { stdio: [0, 1, 2] });
+    execSync(command, { env: env, stdio: [0, 1, 2] });
   } catch (err) {
     console.error(err.toString());
   }

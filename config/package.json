@@ -6,8 +6,9 @@
   "license": "MIT",
   "repository": "https://github.com/x87ma/npm-android-utils",
   "scripts": {
-    "postinstall": "node setup-android downloadDependencies",
-    "cordova": "node setup-android cordova",
+    "postinstall": "npm run setup-android downloadDependencies",
+    "setup-android": "node setup-android",
+    "cordova": "npm run setup-android cordova",
     "cordova:android:build": "npm run cordova build android",
     "cordova:android:run": "npm run cordova run android",
     "cordova:android:clean": "npm run cordova clean android"

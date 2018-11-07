@@ -12,6 +12,7 @@ const fs = require('fs');
 const prependPath = require('prepend-path');
 const path = require('path');
 
+const NPM_ANDROID_UTILS = './node_modules/npm-android-utils/';
 const ANDROID_SDK = './android-sdk';
 const ANDROID_SDK_ZIP_OUTPUT = 'sdk-tools.zip';
 const ANDROID_SDK_MANAGER = `${ANDROID_SDK}/tools/bin/sdkmanager${process.platform === 'win32' ? '.bat' : ''}`;
@@ -19,21 +20,30 @@ const BUILD_TOOLS_VERSION = `28.0.3`;
 const PLATFORM_VERSION = `android-28`;
 const GRADLE_ZIP_OUTPUT = 'gradle.zip';
 const GRADLE_VERSION = `4.10.2`;
-const GRADLE_EXTRACT_PATH = './android-sdk';
+const GRADLE_EXTRACT_PATH = ANDROID_SDK;
 const GRADLE_PATH = `${GRADLE_EXTRACT_PATH}/gradle-${GRADLE_VERSION}`
+const CORDOVA_EXECUTABLE = `./node_modules/.bin/cordova`;
 
 module.exports.withAndroidEnv = function (command) {
-  prependPath(path.resolve(`${GRADLE_PATH}/bin`));
-  prependPath(path.resolve(`${ANDROID_SDK}/platform-tools`));
-  prependPath(path.resolve(`${ANDROID_SDK}/tools`));
-  utils.exec(`ANDROID_HOME=${path.resolve(ANDROID_SDK)} GRADLE_HOME=${path.resolve(GRADLE_PATH)} ${command}`);
+  const resolve = p => path.resolve(p.replace("./", NPM_ANDROID_UTILS));
+
+  prependPath(resolve(`${GRADLE_PATH}/bin`));
+  prependPath(resolve(`${ANDROID_SDK}/platform-tools`));
+  prependPath(resolve(`${ANDROID_SDK}/tools`));
+
+  const env = {
+    'ANDROID_HOME': resolve(ANDROID_SDK),
+    'GRADLE_HOME': resolve(GRADLE_PATH)
+  };
+
+  utils.exec(`${command || ''}`, env);
 }
 
 module.exports.cordova = function (command) {
-  const cordovaExectuable = './node_modules/.bin/cordova';
+  const cordovaExectuable = path.resolve(CORDOVA_EXECUTABLE);
 
   if (!fs.existsSync(cordovaExectuable)) {
-    console.error('Cordova is not installed in the project, please: npm install cordova');
+    console.error(`${CORDOVA_EXECUTABLE} not found is not installed in the project, please: npm install cordova`);
     return;
   }
 
