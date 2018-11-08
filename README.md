@@ -14,13 +14,10 @@ Add the android:exec
 }
 ```
 
-This allows using "npm run android:exec {COMMAND} {ARGS}" within an Android Environment (ANDROID_HOME, Gradle, etc.). For example: 
+This allows using "npm run android:exec {COMMAND} {ARGS}" within an Android Environment (ANDROID_HOME, Gradle, etc.). For example to run the command "cordova build android": 
 
 ```
-"scripts: {
-    "android:exec": "node ./node_modules/npm-android-utils/android-utils exec",
-    "cordova:android:build: "npm run android:exec cordova build android"
-}
+npm run android:exec cordova build android
 ```
 
 # Notes
