@@ -14,7 +14,7 @@ Add the following command to your package json:
 }
 ```
 
-The android:exec script allows to run a command withing an environment setup for android (ANDROID_HOME, GRADLE_HOME, etc.)
+The android:exec script allows to run a command withing an android environment (ANDROID_HOME, GRADLE_HOME, etc.)
 
 # Notes
 If you recently uninstalled Android Studio from your Windows machine. Please make sure you delete the C:\Program Files\Android as gradle will stay there
