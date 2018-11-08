@@ -7,7 +7,7 @@
     "author": "x87ma",
     "license": "MIT",
     "scripts": {
-        "android:exec": "node ./node_modules/npm-android-utils/setup-android exec",
+        "android:exec": "node ./node_modules/npm-android-utils/android-utils exec",
         "cordova": "npm run android:exec .\\node_modules\\.bin\\cordova",
         "android:build": "npm run cordova build android",
         "android:clean": "npm run cordova clean android"

@@ -7,8 +7,8 @@
   "repository": "https://github.com/x87ma/npm-android-utils",
   "scripts": {
     "postinstall": "npm run android:download",
-    "android:exec": "node ./setup-android exec",
-    "android:download": "node ./setup-android downloadDependencies"
+    "android:exec": "node ./android-utils exec",
+    "android:download": "node ./android-utils downloadDependencies"
   },
   "dependencies": {
     "adm-zip": "^0.4.11",
