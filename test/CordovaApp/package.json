@@ -1,0 +1,31 @@
+{
+    "name": "helloworld",
+    "displayName": "HelloCordova",
+    "version": "1.0.0",
+    "description": "Test cordova project for the npm-android-utils.",
+    "main": "index.js",
+    "author": "x87ma",
+    "license": "MIT",
+    "scripts": {
+        "android:exec": "node ./node_modules/npm-android-utils/setup-android exec",
+        "cordova": "npm run android:exec .\\node_modules\\.bin\\cordova",
+        "android:build": "npm run cordova build android",
+        "android:clean": "npm run cordova clean android"
+    },
+    "dependencies": {
+        "cordova-android": "^7.1.2",
+        "cordova-plugin-whitelist": "^1.3.3"
+    },
+    "cordova": {
+        "plugins": {
+            "cordova-plugin-whitelist": {}
+        },
+        "platforms": [
+            "android"
+        ]
+    },
+    "devDependencies": {
+        "cordova": "^8.1.2",
+        "npm-android-utils": "file:..\\..\\src"
+    }
+}
