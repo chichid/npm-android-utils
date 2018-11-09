@@ -1751,7 +1751,7 @@ normalize-package-data@^2.0.0, normalize-package-data@^2.3.2:
     semver "2 || 3 || 4 || 5"
     validate-npm-package-license "^3.0.1"
 
-"npm-android-utils@file:../../src/":
+"npm-android-utils@file:../../src":
   version "1.0.0"
   dependencies:
     adm-zip "^0.4.11"
