@@ -8,9 +8,10 @@
     "license": "MIT",
     "scripts": {
         "android-utils": "./node_modules/.bin/android-utils",
-        "postinstall": "npm run android-utils downloadDependencies",
+        "postinstall": "npm run android-utils downloadDependencies && npm run cordova:android:setup",
         "android:exec": "npm run android-utils exec",
         "cordova": "npm run android:exec ./node_modules/.bin/cordova",
+        "cordova:android:setup": "./node_modules/.bin/cordova platforms add android || true",
         "cordova:android:build": "npm run cordova build android",
         "cordova:android:clean": "npm run cordova clean android"
     },
