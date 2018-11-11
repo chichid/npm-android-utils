@@ -5,14 +5,11 @@
   "main": "index.js",
   "license": "MIT",
   "repository": "https://github.com/x87ma/npm-android-utils",
-  "scripts": {
-    "postinstall": "npm run android:download",
-    "android:exec": "node ./android-utils exec",
-    "android:download": "node ./android-utils downloadDependencies"
+  "bin": {
+    "android-utils": "cli.js"
   },
   "dependencies": {
     "adm-zip": "^0.4.11",
-    "make-runnable": "^1.3.6",
     "prepend-path": "^1.0.0"
   }
 }

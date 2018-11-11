@@ -3,7 +3,6 @@ const fs = require('fs');
 const prependPath = require('prepend-path');
 const path = require('path');
 
-const NPM_ANDROID_UTILS = './node_modules/npm-android-utils/';
 const ANDROID_SDK = './android-sdk';
 const ANDROID_SDK_ZIP_OUTPUT = 'sdk-tools.zip';
 const ANDROID_SDK_MANAGER = `${ANDROID_SDK}/tools/bin/sdkmanager${process.platform === 'win32' ? '.bat' : ''}`;
@@ -14,8 +13,8 @@ const GRADLE_VERSION = `4.10.2`;
 const GRADLE_EXTRACT_PATH = ANDROID_SDK;
 const GRADLE_PATH = `${GRADLE_EXTRACT_PATH}/gradle-${GRADLE_VERSION}`
 
-module.exports.exec = function (...commands) {
-  const resolve = p => path.resolve(p.replace("./", NPM_ANDROID_UTILS));
+module.exports.exec = function (commands) {
+  const resolve = p => path.resolve(p);
 
   prependPath(resolve(`${GRADLE_PATH}/bin`));
   prependPath(resolve(`${ANDROID_SDK}/platform-tools`));
@@ -27,16 +26,26 @@ module.exports.exec = function (...commands) {
   });
 
   if (commands && commands.length > 0) {
-    const executable = path.resolve(commands[0]);
+    const executable = isRelative(commands[0]) ? path.resolve(commands[0]) : commands[0];
     const args = commands.slice(1, commands.length).join(' ');
+    console.log(`[android-utils] - executing: ${executable} ${args}`);
     utils.exec(`${executable} ${args}`, env);
   } else {
-    console.error(`npm-android-utils didnt' get any commands`);
+    console.error(`npm-android-utils exec didn't receive any commands`);
   }
 }
 
 module.exports.downloadDependencies = function () {
   downloadSdkTools();
+}
+
+
+function isRelative(p) {
+  return p.indexOf('./') != -1 ||
+    p.indexOf('.\\') != -1 ||
+    p.indexOf('/.') != -1 ||
+    p.indexOf('\\.') != -1 ||
+    p.indexOf('..') != -1;
 }
 
 function downloadSdkTools() {
@@ -105,7 +114,3 @@ function getSdkToolsUrl() {
   let sdkZip = `sdk-tools-${mapping[process.platform]}-4333796.zip`;
   return `https://dl.google.com/android/repository/${sdkZip}`;
 }
-
-require('make-runnable/custom')({
-  printOutputFrame: false
-});
