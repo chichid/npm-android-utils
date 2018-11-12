@@ -34,7 +34,7 @@ The following is a full setup for a cordova project using android:
 }
 ```
 
-the only command required to setup the following package is "npm install".
+The only command required to setup the following package is "npm install". The only dependency that needs to be installed is Node and npm.
 
 # Notes
 If you recently uninstalled Android Studio from your Windows machine. Please make sure you delete the C:\Program Files\Android as gradle will stay there
