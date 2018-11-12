@@ -5,19 +5,33 @@ This project is to provide android build tools to simplify its use using npm bas
  * Download the android SDK and build Tools (I)
  * Run the android SDK and tools using npm scripts
 
-# Scripts
+# Usage
 
-Add the android:exec
+Add the android:utils
 ```
 "scripts: {
-    "android:exec": "node ./node_modules/npm-android-utils/android-utils exec"
+    "android-utils": "./node_modules/.bin/android-utils",
 }
 ```
 
-This allows using "npm run android:exec {COMMAND} {ARGS}" within an Android Environment (ANDROID_HOME, Gradle, etc.). For example to run the command "cordova build android": 
+This allows to use the available android-utils commands: 
+* npm run android-utils downloadDependencies: download the android SDK and dependencies (Gradle, Platforms, etc.).
+* npm run android-utils exec: allows the execution of commands within the Android environment that downloadDependencies has setup.
+
+# Example
+
+The following is a full setup for a cordova project using android:
 
 ```
-npm run android:exec cordova build android
+"scripts": {
+    "android-utils": "./node_modules/.bin/android-utils",
+    "postinstall": "npm run cordova:android:setup && npm run android-utils downloadDependencies",
+    "android:exec": "npm run android-utils exec",
+    "cordova": "npm run android:exec ./node_modules/.bin/cordova",
+    "cordova:android:setup": "./node_modules/.bin/cordova platforms add android",
+    "cordova:android:build": "npm run cordova build android",
+    "cordova:android:clean": "npm run cordova clean android"
+}
 ```
 
 # Notes
