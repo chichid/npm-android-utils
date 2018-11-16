@@ -7,14 +7,18 @@ This project is to provide android build tools to simplify its use using npm bas
 
 # Usage
 
-Add the android:utils
 ```
-"scripts: {
-    "android-utils": "./node_modules/.bin/android-utils",
+npm install -D npm-android-utils
+```
+
+Add the npm executable to your package.json scripts:
+```
+"scripts": {
+    "android-utils": "./node_modules/.bin/android-utils"
 }
 ```
 
-This allows to use the available android-utils commands: 
+Available commands: 
 * npm run android-utils downloadDependencies: download the android SDK and dependencies (Gradle, Platforms, etc.).
 * npm run android-utils exec: allows the execution of commands within the Android environment that downloadDependencies has setup.
 
